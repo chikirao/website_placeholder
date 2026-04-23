@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Заглушка портфолио с асфальтовой сценой, мягким параллаксом и дорожным знаком."
+    >
+    <title>Портфолио скоро появится</title>
+    <link rel="stylesheet" href="styles/main.css">
+  </head>
+  <body>
+    <main class="page">
+      <h1 id="page-title" class="sr-only">Скоро здесь будет моё портфолио</h1>
+      <p id="scene-description" class="sr-only">
+        Адаптивная сцена с асфальтовым фоном, дорожным знаком и мягким параллаксом.
+      </p>
+
+      <section
+        class="scene"
+        aria-labelledby="page-title"
+        aria-describedby="scene-description"
+        data-breakpoint="desktop"
+      >
+        <div class="scene__viewport">
+          <div class="scene__parallax scene__parallax--background">
+            <img
+              class="scene__background"
+              src="assets/scene/conc-hq.png"
+              alt=""
+              aria-hidden="true"
+              decoding="async"
+              fetchpriority="high"
+            >
+          </div>
+
+          <div class="scene__parallax scene__parallax--sign">
+            <button
+              class="sign"
+              type="button"
+              aria-label="Скоро здесь будет моё портфолио. Нажмите, чтобы встряхнуть знак."
+            >
+              <span class="sign__pose">
+                <img
+                  class="sign__image"
+                  src="assets/scene/road-sign.png"
+                  alt=""
+                  aria-hidden="true"
+                  decoding="async"
+                >
+              </span>
+            </button>
+          </div>
+
+          <div class="scene__vignette" aria-hidden="true"></div>
+        </div>
+      </section>
+    </main>
+
+    <aside class="motion-permission" hidden>
+      <div class="motion-permission__panel" role="dialog" aria-modal="true" aria-labelledby="motion-title">
+        <h2 id="motion-title" class="motion-permission__title">Разрешить движение сцены</h2>
+        <p class="motion-permission__text">
+          Чтобы включить мягкий параллакс от поворота устройства, нужен доступ к датчикам движения.
+        </p>
+        <div class="motion-permission__actions">
+          <button class="motion-permission__button" type="button" data-action="allow">
+            Включить
+          </button>
+          <button class="motion-permission__button motion-permission__button--ghost" type="button" data-action="dismiss">
+            Позже
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <script src="scripts/main.js" defer></script>
+  </body>
+</html>
