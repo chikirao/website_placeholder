@@ -14,7 +14,7 @@
     <main class="page">
       <h1 id="page-title" class="sr-only">Скоро здесь будет моё портфолио</h1>
       <p id="scene-description" class="sr-only">
-        Адаптивная сцена с асфальтовым фоном, дорожным знаком и мягким параллаксом.
+        Адаптивная сцена с асфальтовым фоном, дорожными знаками, ссылками на Telegram и Glitchy и мягким параллаксом.
       </p>
 
       <section
@@ -26,18 +26,26 @@
         <div class="scene__viewport">
           <div class="scene__parallax scene__parallax--background">
             <img
-              class="scene__background"
+              class="scene__background scene__background--base"
               src="assets/scene/conc-hq.png"
               alt=""
               aria-hidden="true"
               decoding="async"
               fetchpriority="high"
             >
+            <img
+              class="scene__background scene__background--glitch"
+              src="glgif.gif"
+              alt=""
+              aria-hidden="true"
+              decoding="async"
+              loading="lazy"
+            >
           </div>
 
           <div class="scene__parallax scene__parallax--sign">
             <button
-              class="sign"
+              class="sign sign--hero"
               type="button"
               aria-label="Скоро здесь будет моё портфолио. Нажмите, чтобы встряхнуть знак."
             >
@@ -51,6 +59,42 @@
                 >
               </span>
             </button>
+
+            <a
+              class="sign sign--glitch"
+              href="https://chikirao.github.io/video_glitcher/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Открыть сайт Glitchy"
+            >
+              <span class="sign__pose">
+                <img
+                  class="sign__image"
+                  src="glitchy.png"
+                  alt=""
+                  aria-hidden="true"
+                  decoding="async"
+                >
+              </span>
+            </a>
+
+            <a
+              class="sign sign--telegram"
+              href="https://t.me/chikikto"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Открыть Telegram-канал"
+            >
+              <span class="sign__pose">
+                <img
+                  class="sign__image"
+                  src="telegram.png"
+                  alt=""
+                  aria-hidden="true"
+                  decoding="async"
+                >
+              </span>
+            </a>
           </div>
 
           <div class="scene__vignette" aria-hidden="true"></div>
@@ -60,18 +104,30 @@
 
     <aside class="motion-permission" hidden>
       <div class="motion-permission__panel" role="dialog" aria-modal="true" aria-labelledby="motion-title">
-        <h2 id="motion-title" class="motion-permission__title">Разрешить движение сцены</h2>
-        <p class="motion-permission__text">
-          Чтобы включить мягкий параллакс от поворота устройства, нужен доступ к датчикам движения.
-        </p>
+        <div class="motion-permission__plate" aria-hidden="true"></div>
         <div class="motion-permission__actions">
-          <button class="motion-permission__button" type="button" data-action="allow">
-            Включить
+          <button class="motion-permission__button motion-permission__button--dismiss" type="button" data-action="dismiss">
+            <img
+              class="motion-permission__button-image"
+              src="cancel.png"
+              alt=""
+              aria-hidden="true"
+              decoding="async"
+            >
+            <span class="sr-only">Отмена</span>
           </button>
-          <button class="motion-permission__button motion-permission__button--ghost" type="button" data-action="dismiss">
-            Позже
+          <button class="motion-permission__button motion-permission__button--allow" type="button" data-action="allow">
+            <img
+              class="motion-permission__button-image"
+              src="ok.png"
+              alt=""
+              aria-hidden="true"
+              decoding="async"
+            >
+            <span class="sr-only">OK</span>
           </button>
         </div>
+        <h2 id="motion-title" class="sr-only">Требуется доступ к гироскопу устройства</h2>
       </div>
     </aside>
 

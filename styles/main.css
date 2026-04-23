@@ -1,0 +1,450 @@
+:root {
+  color-scheme: dark;
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --bg-width: 100vw;
+  --bg-right: 0px;
+  --bg-top: 0px;
+  --bg-scale: 1.16;
+  --bg-origin-x: 62%;
+  --sign-box-left: 0px;
+  --sign-box-top: 0px;
+  --sign-box-width: 320px;
+  --sign-box-height: 960px;
+  --sign-image-width: 220px;
+  --sign-image-offset-x: 0px;
+  --sign-image-offset-y: 0px;
+  --sign-rotation: 7.9deg;
+  --glitch-box-left: 0px;
+  --glitch-box-top: 0px;
+  --glitch-box-width: 240px;
+  --glitch-box-height: 240px;
+  --glitch-image-width: 240px;
+  --glitch-image-offset-x: 0px;
+  --glitch-image-offset-y: 0px;
+  --glitch-rotation: -7deg;
+  --telegram-box-left: 0px;
+  --telegram-box-top: 0px;
+  --telegram-box-width: 220px;
+  --telegram-box-height: 220px;
+  --telegram-image-width: 220px;
+  --telegram-image-offset-x: 0px;
+  --telegram-image-offset-y: 0px;
+  --telegram-rotation: 5deg;
+  --sign-scale-factor: 1;
+  --sign-lift: 0px;
+  --sign-shadow:
+    drop-shadow(30px 34px 18px rgba(0, 0, 0, 0.34))
+    drop-shadow(22px 25px 26px rgba(0, 0, 0, 0.46))
+    drop-shadow(4px 8px 10px rgba(0, 0, 0, 0.28));
+  --sign-shadow-hover:
+    drop-shadow(24px 28px 16px rgba(0, 0, 0, 0.25))
+    drop-shadow(18px 20px 24px rgba(0, 0, 0, 0.35))
+    drop-shadow(3px 6px 9px rgba(0, 0, 0, 0.2));
+  --sign-hover-scale: 1.026;
+  --sign-hover-lift: -9px;
+  --vignette-opacity: 1;
+  --vignette-inset: -18%;
+  --vignette-bg:
+    radial-gradient(
+      ellipse at center,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0) 38%,
+      rgba(0, 0, 0, 0.14) 56%,
+      rgba(0, 0, 0, 0.34) 72%,
+      rgba(0, 0, 0, 0.62) 86%,
+      rgba(0, 0, 0, 0.84) 100%
+    ),
+    radial-gradient(
+      ellipse at center,
+      rgba(0, 0, 0, 0) 54%,
+      rgba(0, 0, 0, 0.08) 72%,
+      rgba(0, 0, 0, 0.22) 100%
+    );
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: #0c0c0c;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow: hidden;
+  color: #f5f5f5;
+  font-family: Inter, "Segoe UI", sans-serif;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+img {
+  display: block;
+  max-width: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.page {
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
+.scene {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 68% 48%, rgba(255, 220, 165, 0.14), transparent 13%),
+    #111;
+}
+
+.scene__viewport {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.scene__parallax {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  transition: transform 420ms var(--ease-out-soft);
+}
+
+.scene__background {
+  position: absolute;
+  right: var(--bg-right);
+  top: var(--bg-top);
+  width: auto;
+  min-width: var(--bg-width);
+  height: 100%;
+  object-fit: cover;
+  transform: scale(var(--bg-scale));
+  transform-origin: var(--bg-origin-x) center;
+  filter: saturate(0.95) contrast(1.03) brightness(0.98);
+  opacity: 1;
+  transition: opacity 260ms ease;
+}
+
+.scene__background--glitch {
+  opacity: 0;
+  filter: saturate(0.96) contrast(1.02) brightness(0.98);
+}
+
+.scene__parallax--sign {
+  z-index: 2;
+}
+
+.scene.scene--glitch-preview .scene__background--base {
+  opacity: 0;
+}
+
+.scene.scene--glitch-preview .scene__background--glitch {
+  opacity: 1;
+}
+
+.sign {
+  position: absolute;
+  left: var(--box-left);
+  top: var(--box-top);
+  width: var(--box-width);
+  height: var(--box-height);
+  border: 0;
+  padding: 0;
+  background: transparent;
+  display: block;
+  color: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
+  appearance: none;
+  text-decoration: none;
+  overflow: visible;
+  perspective: 1400px;
+  perspective-origin: var(--perspective-origin, 52% 18%);
+  z-index: var(--sign-z, 1);
+}
+
+.sign:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.92);
+  outline-offset: 10px;
+}
+
+.sign--hero {
+  --box-left: var(--sign-box-left);
+  --box-top: var(--sign-box-top);
+  --box-width: var(--sign-box-width);
+  --box-height: var(--sign-box-height);
+  --image-width: var(--sign-image-width);
+  --image-offset-x: var(--sign-image-offset-x);
+  --image-offset-y: var(--sign-image-offset-y);
+  --rotation: var(--sign-rotation);
+  --pose-origin: 48% 10%;
+  --perspective-origin: 52% 18%;
+  --sign-z: 1;
+}
+
+.sign--glitch {
+  --box-left: var(--glitch-box-left);
+  --box-top: var(--glitch-box-top);
+  --box-width: var(--glitch-box-width);
+  --box-height: var(--glitch-box-height);
+  --image-width: var(--glitch-image-width);
+  --image-offset-x: var(--glitch-image-offset-x);
+  --image-offset-y: var(--glitch-image-offset-y);
+  --rotation: var(--glitch-rotation);
+  --pose-origin: 50% 50%;
+  --perspective-origin: 50% 50%;
+  --sign-z: 2;
+}
+
+.sign--telegram {
+  --box-left: var(--telegram-box-left);
+  --box-top: var(--telegram-box-top);
+  --box-width: var(--telegram-box-width);
+  --box-height: var(--telegram-box-height);
+  --image-width: var(--telegram-image-width);
+  --image-offset-x: var(--telegram-image-offset-x);
+  --image-offset-y: var(--telegram-image-offset-y);
+  --rotation: var(--telegram-rotation);
+  --pose-origin: 50% 50%;
+  --perspective-origin: 50% 50%;
+  --sign-z: 3;
+}
+
+.sign__pose {
+  position: absolute;
+  left: var(--image-offset-x);
+  top: var(--image-offset-y);
+  width: var(--image-width);
+  display: block;
+  transform-origin: var(--pose-origin);
+  transform-style: preserve-3d;
+  will-change: transform, filter;
+  transform:
+    translate3d(0, var(--sign-lift), 0)
+    rotateZ(var(--rotation))
+    scale(var(--sign-scale-factor));
+  filter: var(--sign-shadow);
+  transition:
+    transform 440ms var(--ease-out-soft),
+    filter 440ms var(--ease-out-soft);
+}
+
+.sign__image {
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+
+.scene__vignette {
+  position: absolute;
+  inset: var(--vignette-inset);
+  z-index: 3;
+  pointer-events: none;
+  opacity: var(--vignette-opacity);
+  background: var(--vignette-bg);
+}
+
+.motion-permission[hidden] {
+  display: none;
+}
+
+.motion-permission {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.74);
+  backdrop-filter: blur(4px);
+}
+
+.motion-permission__panel {
+  position: relative;
+  width: min(92vw, 560px);
+  aspect-ratio: 1 / 1;
+}
+
+.motion-permission__plate {
+  position: absolute;
+  inset: 0;
+  background: center / contain no-repeat url("../notif.png");
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.motion-permission__actions {
+  position: absolute;
+  inset: auto 0 0;
+  height: 34%;
+  margin-bottom: 18px;
+}
+
+.motion-permission__button {
+  position: absolute;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  appearance: none;
+  cursor: pointer;
+  filter: drop-shadow(0 13px 16px rgba(0, 0, 0, 0.42));
+  transition:
+    transform 220ms ease,
+    filter 220ms ease;
+}
+
+.motion-permission__button:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.92);
+  outline-offset: 8px;
+}
+
+.motion-permission__button--dismiss {
+  left: 8.2%;
+  bottom: 11.2%;
+  width: 37.8%;
+  transform: rotate(4deg);
+}
+
+.motion-permission__button--allow {
+  right: 7.5%;
+  bottom: 9.8%;
+  width: 39.5%;
+  transform: rotate(-5deg);
+}
+
+.motion-permission__button-image {
+  width: 100%;
+  height: auto;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .motion-permission__button:hover,
+  .motion-permission__button:focus-visible {
+    filter: drop-shadow(0 15px 18px rgba(0, 0, 0, 0.48));
+  }
+
+  .motion-permission__button--dismiss:hover,
+  .motion-permission__button--dismiss:focus-visible {
+    transform: translateY(-3px) scale(1.015) rotate(4deg);
+  }
+
+  .motion-permission__button--allow:hover,
+  .motion-permission__button--allow:focus-visible {
+    transform: translateY(-3px) scale(1.015) rotate(-5deg);
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .sign:hover .sign__pose,
+  .sign:focus-visible .sign__pose {
+    --sign-scale-factor: var(--sign-hover-scale);
+    --sign-lift: var(--sign-hover-lift);
+    filter: var(--sign-shadow-hover);
+  }
+}
+
+.sign.is-shaking .sign__pose {
+  animation: sign-shudder-3d 400ms cubic-bezier(0.16, 0.94, 0.32, 1.02);
+}
+
+@keyframes sign-shudder-3d {
+  0%,
+  100% {
+    transform:
+      translate3d(0, var(--sign-lift), 0)
+      rotateZ(var(--rotation))
+      rotateX(0deg)
+      rotateY(0deg)
+      scale(var(--sign-scale-factor));
+  }
+
+  14% {
+    transform:
+      translate3d(-8px, calc(var(--sign-lift) - 1px), 0)
+      rotateZ(calc(var(--rotation) - 0.45deg))
+      rotateX(1.2deg)
+      rotateY(-10deg)
+      scale(calc(var(--sign-scale-factor) + 0.006));
+  }
+
+  30% {
+    transform:
+      translate3d(7px, calc(var(--sign-lift) + 1px), 0)
+      rotateZ(calc(var(--rotation) + 0.36deg))
+      rotateX(-0.8deg)
+      rotateY(8deg)
+      scale(calc(var(--sign-scale-factor) + 0.003));
+  }
+
+  46% {
+    transform:
+      translate3d(-5px, calc(var(--sign-lift) - 1px), 0)
+      rotateZ(calc(var(--rotation) - 0.28deg))
+      rotateX(0.9deg)
+      rotateY(-6deg)
+      scale(calc(var(--sign-scale-factor) + 0.002));
+  }
+
+  62% {
+    transform:
+      translate3d(4px, var(--sign-lift), 0)
+      rotateZ(calc(var(--rotation) + 0.18deg))
+      rotateX(-0.55deg)
+      rotateY(4deg)
+      scale(var(--sign-scale-factor));
+  }
+
+  78% {
+    transform:
+      translate3d(-2px, var(--sign-lift), 0)
+      rotateZ(calc(var(--rotation) - 0.08deg))
+      rotateX(0.25deg)
+      rotateY(-2deg)
+      scale(var(--sign-scale-factor));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene__parallax,
+  .scene__background,
+  .sign__pose,
+  .motion-permission__button {
+    transition-duration: 120ms;
+  }
+
+  .sign.is-shaking .sign__pose {
+    animation-duration: 160ms;
+  }
+}
