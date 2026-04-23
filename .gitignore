@@ -1,1 +1,20 @@
 back/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/
+
+# Local logs
+*.log
+server.err.log
+server.out.log
+
+# Local source assets not used by the published page
+concHQ.png
+glitch1.png
+glitch2.png
+glitch3.png
+road_sign.png
