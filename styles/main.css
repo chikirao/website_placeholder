@@ -223,12 +223,6 @@ img {
   -webkit-user-select: none;
   user-select: none;
   outline: 0;
-  isolation: isolate;
-  contain: layout style;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
 }
 
 .sign:focus-visible {
@@ -253,7 +247,6 @@ img {
   --pose-origin: 48% 10%;
   --perspective-origin: 52% 18%;
   --sign-z: 1;
-  --glitch-overlay-image: url("../assets/scene/road-sign.png");
 }
 
 .sign--glitch {
@@ -268,7 +261,6 @@ img {
   --pose-origin: 50% 50%;
   --perspective-origin: 50% 50%;
   --sign-z: 2;
-  --glitch-overlay-image: url("../glitchy.png");
 }
 
 .sign--telegram {
@@ -283,40 +275,6 @@ img {
   --pose-origin: 50% 50%;
   --perspective-origin: 50% 50%;
   --sign-z: 3;
-  --glitch-overlay-image: url("../telegram.png");
-}
-
-.sign::before {
-  content: "";
-  position: absolute;
-  left: var(--image-offset-x);
-  top: var(--image-offset-y);
-  width: var(--image-width);
-  aspect-ratio: 1 / 1;
-  background: center / contain no-repeat var(--glitch-overlay-image);
-  opacity: 0;
-  pointer-events: none;
-  transform-origin: var(--pose-origin);
-  transform:
-    translate3d(0, var(--sign-lift), 0)
-    rotateZ(var(--rotation))
-    scale(var(--sign-scale-factor));
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  will-change: transform, opacity;
-  z-index: 2;
-}
-
-.sign--hero::before {
-  aspect-ratio: 769 / 1662;
-}
-
-.sign--glitch::before {
-  aspect-ratio: 1 / 1;
-}
-
-.sign--telegram::before {
-  aspect-ratio: 1 / 1;
 }
 
 .sign__pose {
@@ -327,15 +285,12 @@ img {
   display: block;
   transform-origin: var(--pose-origin);
   transform-style: preserve-3d;
-  will-change: transform, filter;
+  will-change: transform;
   transform:
     translate3d(0, var(--sign-lift), 0)
     rotateZ(var(--rotation))
     scale(var(--sign-scale-factor));
   filter: var(--sign-shadow);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  isolation: isolate;
   transition:
     transform 440ms var(--ease-out-soft),
     filter 440ms var(--ease-out-soft);
@@ -345,10 +300,6 @@ img {
   width: 100%;
   height: auto;
   pointer-events: none;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
 }
 
 .scene__vignette {
@@ -489,10 +440,6 @@ img {
   animation: sign-safari-warp 460ms cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-.is-safari .sign.is-shaking::before {
-  animation: sign-safari-offset 460ms cubic-bezier(0.19, 1, 0.22, 1);
-}
-
 @keyframes sign-shudder-3d {
   0%,
   100% {
@@ -585,41 +532,6 @@ img {
   }
 }
 
-@keyframes sign-safari-offset {
-  0%,
-  100% {
-    opacity: 0;
-    transform:
-      translate3d(0, var(--sign-lift), 0)
-      rotateZ(var(--rotation))
-      scale(var(--sign-scale-factor));
-  }
-
-  24% {
-    opacity: 0.18;
-    transform:
-      translate3d(3px, calc(var(--sign-lift) - 2px), 0)
-      rotateZ(calc(var(--rotation) - 0.12deg))
-      scale(calc(var(--sign-scale-factor) + 0.012));
-  }
-
-  52% {
-    opacity: 0.11;
-    transform:
-      translate3d(-2px, calc(var(--sign-lift) + 1px), 0)
-      rotateZ(calc(var(--rotation) + 0.1deg))
-      scale(calc(var(--sign-scale-factor) + 0.006));
-  }
-
-  74% {
-    opacity: 0.07;
-    transform:
-      translate3d(1px, var(--sign-lift), 0)
-      rotateZ(var(--rotation))
-      scale(var(--sign-scale-factor));
-  }
-}
-
 @media (orientation: portrait) and (max-width: 767px) {
   .scene {
     --vignette-opacity: 0.82;
@@ -652,7 +564,4 @@ img {
     animation: none;
   }
 
-  .sign.is-shaking::before {
-    animation: none;
-  }
 }
