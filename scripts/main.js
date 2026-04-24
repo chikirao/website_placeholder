@@ -1,3 +1,4 @@
+const root = document.documentElement;
 const scene = document.querySelector(".scene");
 const backgroundLayer = document.querySelector(".scene__parallax--background");
 const signLayer = document.querySelector(".scene__parallax--sign");
@@ -10,63 +11,126 @@ const allowMotionButton = document.querySelector('[data-action="allow"]');
 const dismissMotionButton = document.querySelector('[data-action="dismiss"]');
 const urlParams = new URLSearchParams(window.location.search);
 
+const userAgent = navigator.userAgent || "";
+const platform = navigator.platform || "";
+const isIPadOS = platform === "MacIntel" && navigator.maxTouchPoints > 1;
+const isAppleMobile = /iPhone|iPad|iPod/i.test(userAgent) || /iPhone|iPad|iPod/i.test(platform) || isIPadOS;
+const isSafari =
+  /^((?!chrome|android|crios|fxios|edgios|opr|opera).)*safari/i.test(userAgent) ||
+  (isAppleMobile && /AppleWebKit/i.test(userAgent) && !/CriOS|FxiOS|EdgiOS/i.test(userAgent));
+
+root.classList.toggle("is-ios", isAppleMobile);
+root.classList.toggle("is-safari", isSafari);
+
 const breakpoints = {
   mobileMax: 767,
-  desktopMin: 1200,
+  tabletMax: 1199,
 };
 
 const sceneStates = {
-  mobile: {
-    bgWidth: 3.8958333333,
-    bgLeft: -2.4100378788,
+  mobilePortrait: {
+    bgWidth: 4.05,
+    bgLeft: -2.52,
     bgTop: 0,
-    bgScale: 1.18,
-    signBoxLeft: -0.27,
-    signBoxTop: 0.1576655052,
-    signBoxWidth: 1.0862002872,
-    signBoxHeight: 1.5199452591,
-    signImageWidth: 0.6686972161,
-    signImageOffsetX: 0.2087528409,
-    signImageOffsetY: 0.0136808362,
-    signRotation: 7.49,
-    glitchLeft: 0.563,
-    glitchTop: 0.6,
-    glitchSize: 0.362,
+    bgScale: 1.25,
+    signBoxLeft: -0.32,
+    signBoxTop: 0.115,
+    signBoxWidth: 1.12,
+    signBoxHeight: 1.6,
+    signImageWidth: 0.705,
+    signImageOffsetX: 0.205,
+    signImageOffsetY: 0.014,
+    signRotation: 7.45,
+    glitchLeft: 0.535,
+    glitchTop: 0.59,
+    glitchSize: 0.34,
     glitchRotation: -7.2,
-    telegramLeft: 0.231,
-    telegramTop: 0.739,
-    telegramSize: 0.418,
-    telegramRotation: 4.6,
+    telegramLeft: 0.17,
+    telegramTop: 0.78,
+    telegramSize: 0.38,
+    telegramRotation: 4.7,
+    backgroundShiftX: 10,
+    backgroundShiftY: 14,
+    signShiftX: 15,
+    signShiftY: 22,
+  },
+  mobileLandscape: {
+    bgWidth: 2.2,
+    bgLeft: -0.74,
+    bgTop: -0.04,
+    bgScale: 1.28,
+    signBoxLeft: -0.15,
+    signBoxTop: 0.04,
+    signBoxWidth: 0.66,
+    signBoxHeight: 2.24,
+    signImageWidth: 0.39,
+    signImageOffsetX: 0.12,
+    signImageOffsetY: 0.01,
+    signRotation: 7.8,
+    glitchLeft: 0.58,
+    glitchTop: 0.28,
+    glitchSize: 0.3,
+    glitchRotation: -6.9,
+    telegramLeft: 0.25,
+    telegramTop: 0.63,
+    telegramSize: 0.28,
+    telegramRotation: 5.1,
     backgroundShiftX: 12,
     backgroundShiftY: 10,
-    signShiftX: 20,
-    signShiftY: 18,
+    signShiftX: 18,
+    signShiftY: 15,
   },
-  middle: {
-    bgWidth: 2.5646523717,
-    bgLeft: -1.3203378817,
+  tabletPortrait: {
+    bgWidth: 2.72,
+    bgLeft: -1.44,
     bgTop: 0,
-    bgScale: 1.17,
-    signBoxLeft: -0.255,
-    signBoxTop: 0.0866999546,
-    signBoxWidth: 0.991638656,
-    signBoxHeight: 2.0626745349,
-    signImageWidth: 0.5971290371,
-    signImageOffsetX: 0.1972559454,
-    signImageOffsetY: 0.0191068997,
-    signRotation: 7.94,
-    glitchLeft: 0.597,
-    glitchTop: 0.418,
-    glitchSize: 0.314,
+    bgScale: 1.21,
+    signBoxLeft: -0.25,
+    signBoxTop: 0.075,
+    signBoxWidth: 0.98,
+    signBoxHeight: 1.95,
+    signImageWidth: 0.59,
+    signImageOffsetX: 0.195,
+    signImageOffsetY: 0.018,
+    signRotation: 7.9,
+    glitchLeft: 0.59,
+    glitchTop: 0.43,
+    glitchSize: 0.3,
     glitchRotation: -6.9,
-    telegramLeft: 0.214,
-    telegramTop: 0.716,
-    telegramSize: 0.294,
+    telegramLeft: 0.22,
+    telegramTop: 0.72,
+    telegramSize: 0.28,
     telegramRotation: 5.2,
-    backgroundShiftX: 14,
-    backgroundShiftY: 12,
-    signShiftX: 24,
+    backgroundShiftX: 13,
+    backgroundShiftY: 13,
+    signShiftX: 22,
     signShiftY: 22,
+  },
+  tabletLandscape: {
+    bgWidth: 1.72,
+    bgLeft: -0.42,
+    bgTop: -0.02,
+    bgScale: 1.2,
+    signBoxLeft: -0.12,
+    signBoxTop: 0.035,
+    signBoxWidth: 0.62,
+    signBoxHeight: 2.1,
+    signImageWidth: 0.37,
+    signImageOffsetX: 0.12,
+    signImageOffsetY: 0.018,
+    signRotation: 7.9,
+    glitchLeft: 0.57,
+    glitchTop: 0.31,
+    glitchSize: 0.25,
+    glitchRotation: -6.85,
+    telegramLeft: 0.31,
+    telegramTop: 0.66,
+    telegramSize: 0.23,
+    telegramRotation: 5.25,
+    backgroundShiftX: 14,
+    backgroundShiftY: 11,
+    signShiftX: 23,
+    signShiftY: 18,
   },
   desktop: {
     bgWidth: 1,
@@ -98,17 +162,19 @@ const sceneStates = {
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const finePointerQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
-const motionPermissionCookieName = "portfolio_motion_permission";
 const motionPromptDebugEnabled = urlParams.get("debug-motion-prompt") === "1";
 
 const pointerTarget = { x: 0, y: 0 };
 const pointerCurrent = { x: 0, y: 0 };
 
 let currentProfile = sceneStates.desktop;
+let currentViewport = { width: window.innerWidth || 1, height: window.innerHeight || 1 };
 let orientationListening = false;
+let gyroPermissionState = "prompt";
 let rafId = 0;
 let motionDismissed = false;
 let glitchPreviewAvailable = true;
+let orientationBaseline = null;
 
 const shakeTimeouts = new WeakMap();
 
@@ -134,27 +200,16 @@ function normalizeAngle(value) {
   return ((value % 360) + 360) % 360;
 }
 
-function getCookie(name) {
-  const pattern = new RegExp(`(?:^|; )${name}=([^;]*)`);
-  const match = document.cookie.match(pattern);
-  return match ? decodeURIComponent(match[1]) : "";
+function normalizeDelta(value) {
+  return ((((value + 180) % 360) + 360) % 360) - 180;
 }
 
-function setCookie(name, value, maxAgeSeconds) {
-  document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=${maxAgeSeconds}; SameSite=Lax`;
+function toRadians(value) {
+  return (value * Math.PI) / 180;
 }
 
-function isAppleMobileDevice() {
-  const userAgent = navigator.userAgent || "";
-  const platform = navigator.platform || "";
-  const appleMobilePattern = /iPhone|iPad|iPod/i;
-  const isIPadOS = platform === "MacIntel" && navigator.maxTouchPoints > 1;
-
-  return appleMobilePattern.test(userAgent) || appleMobilePattern.test(platform) || isIPadOS;
-}
-
-function shouldForceMotionPromptDebug() {
-  return motionPromptDebugEnabled;
+function toDegrees(value) {
+  return (value * 180) / Math.PI;
 }
 
 function canRequestDeviceOrientationPermission() {
@@ -164,12 +219,17 @@ function canRequestDeviceOrientationPermission() {
   );
 }
 
-function toRadians(value) {
-  return (value * Math.PI) / 180;
+function getViewportSize() {
+  const visualViewport = window.visualViewport;
+  const width = Math.round(visualViewport?.width || window.innerWidth || document.documentElement.clientWidth || 1);
+  const height = Math.round(visualViewport?.height || window.innerHeight || document.documentElement.clientHeight || 1);
+
+  return { width, height };
 }
 
-function toDegrees(value) {
-  return (value * 180) / Math.PI;
+function syncViewportHeight() {
+  currentViewport = getViewportSize();
+  root.style.setProperty("--app-height", `${currentViewport.height}px`);
 }
 
 function getViewportAngle() {
@@ -181,7 +241,7 @@ function getViewportAngle() {
     return normalizeAngle(window.orientation);
   }
 
-  return window.innerWidth > window.innerHeight ? 90 : 0;
+  return currentViewport.width > currentViewport.height ? 90 : 0;
 }
 
 function getGravityVector(beta, gamma) {
@@ -217,20 +277,32 @@ function resolveOrientationTilt(beta, gamma, angle) {
   };
 }
 
-function resolveLayout(width) {
-  if (width < breakpoints.desktopMin) {
-    if (width <= breakpoints.mobileMax) {
-      const amount = clamp((width - 360) / (768 - 360), 0, 1);
+function resetOrientationBaseline() {
+  orientationBaseline = null;
+}
+
+function resolveLayout(width, height) {
+  const isPortrait = height >= width;
+
+  if (width <= breakpoints.mobileMax) {
+    if (isPortrait) {
+      const amount = clamp((width - 360) / (breakpoints.mobileMax - 360), 0, 1);
       return {
-        label: "mobile",
-        profile: mixState(sceneStates.mobile, sceneStates.middle, amount),
+        label: "mobile-portrait",
+        profile: mixState(sceneStates.mobilePortrait, sceneStates.tabletPortrait, amount * 0.34),
       };
     }
 
-    const amount = clamp((width - 768) / (1200 - 768), 0, 1);
     return {
-      label: "middle",
-      profile: mixState(sceneStates.middle, sceneStates.desktop, amount),
+      label: "mobile-landscape",
+      profile: sceneStates.mobileLandscape,
+    };
+  }
+
+  if (width <= breakpoints.tabletMax || (!finePointerQuery.matches && Math.min(width, height) <= 1024)) {
+    return {
+      label: isPortrait ? "tablet-portrait" : "tablet-landscape",
+      profile: isPortrait ? sceneStates.tabletPortrait : sceneStates.tabletLandscape,
     };
   }
 
@@ -240,19 +312,27 @@ function resolveLayout(width) {
   };
 }
 
+function clampTopToViewport(top, size, height, bottomGutter) {
+  return clamp(top, 0, Math.max(0, height - size - bottomGutter));
+}
+
 function applyLayout() {
-  const width = window.innerWidth;
-  const height = window.innerHeight;
-  const auxiliarySignUnit = Math.min(width, height * 1.3);
-  const { label, profile } = resolveLayout(width);
+  syncViewportHeight();
+
+  const { width, height } = currentViewport;
+  const isLandscapeTouch = width > height && !finePointerQuery.matches;
+  const auxiliarySignUnit = Math.min(width, height * (isLandscapeTouch ? 1.18 : 1.3));
+  const { label, profile } = resolveLayout(width, height);
   const glitchSize = profile.glitchSize * auxiliarySignUnit;
   const telegramSize = profile.telegramSize * auxiliarySignUnit;
+  const mobileBottomGutter = !finePointerQuery.matches ? Math.max(18, Math.min(42, height * 0.055)) : 0;
+  const telegramTop = clampTopToViewport(profile.telegramTop * height, telegramSize, height, mobileBottomGutter);
 
   currentProfile = profile;
   scene.dataset.breakpoint = label;
 
   scene.style.setProperty("--bg-width", `${profile.bgWidth * width}px`);
-  scene.style.setProperty("--bg-scale", String(profile.bgScale + (width > height && !finePointerQuery.matches ? 0.11 : 0)));
+  scene.style.setProperty("--bg-scale", String(profile.bgScale + (isLandscapeTouch ? 0.08 : 0)));
   scene.style.setProperty("--bg-right", `${width - (profile.bgLeft * width + profile.bgWidth * width)}px`);
   scene.style.setProperty("--bg-top", `${profile.bgTop * height}px`);
   scene.style.setProperty("--sign-box-left", `${profile.signBoxLeft * width}px`);
@@ -272,7 +352,7 @@ function applyLayout() {
   scene.style.setProperty("--glitch-image-offset-y", "0px");
   scene.style.setProperty("--glitch-rotation", `${profile.glitchRotation}deg`);
   scene.style.setProperty("--telegram-box-left", `${profile.telegramLeft * width}px`);
-  scene.style.setProperty("--telegram-box-top", `${profile.telegramTop * height}px`);
+  scene.style.setProperty("--telegram-box-top", `${telegramTop}px`);
   scene.style.setProperty("--telegram-box-width", `${telegramSize}px`);
   scene.style.setProperty("--telegram-box-height", `${telegramSize}px`);
   scene.style.setProperty("--telegram-image-width", `${telegramSize}px`);
@@ -280,15 +360,16 @@ function applyLayout() {
   scene.style.setProperty("--telegram-image-offset-y", "0px");
   scene.style.setProperty("--telegram-rotation", `${profile.telegramRotation}deg`);
 
+  resetOrientationBaseline();
   syncMotionMode();
 }
 
 function updatePointerTarget(clientX, clientY) {
-  const width = window.innerWidth || 1;
-  const height = window.innerHeight || 1;
+  const width = currentViewport.width || 1;
+  const height = currentViewport.height || 1;
 
-  pointerTarget.x = (clientX / width - 0.5) * 2;
-  pointerTarget.y = (clientY / height - 0.5) * 2;
+  pointerTarget.x = clamp((clientX / width - 0.5) * 2, -1, 1);
+  pointerTarget.y = clamp((clientY / height - 0.5) * 2, -1, 1);
 }
 
 function resetPointerTarget() {
@@ -297,19 +378,19 @@ function resetPointerTarget() {
 }
 
 function handlePointerMove(event) {
-  if (!finePointerQuery.matches || prefersReducedMotion.matches) {
+  if (prefersReducedMotion.matches) {
     return;
   }
 
-  updatePointerTarget(event.clientX, event.clientY);
+  if (finePointerQuery.matches || (!orientationListening && event.pointerType !== "mouse")) {
+    updatePointerTarget(event.clientX, event.clientY);
+  }
 }
 
 function handlePointerLeave() {
-  if (!finePointerQuery.matches) {
-    return;
+  if (finePointerQuery.matches || !orientationListening) {
+    resetPointerTarget();
   }
-
-  resetPointerTarget();
 }
 
 function handleOrientation(event) {
@@ -322,37 +403,47 @@ function handleOrientation(event) {
   }
 
   const angle = getViewportAngle();
-  const betaClamp = 179.5;
-  const gammaClamp = 89.5;
-  const gammaDivisor = 22;
-  const betaDivisor = 28;
-  const gamma = clamp(event.gamma, -gammaClamp, gammaClamp);
-  const beta = clamp(event.beta, -betaClamp, betaClamp);
+  const gamma = clamp(event.gamma, -89.5, 89.5);
+  const beta = clamp(event.beta, -179.5, 179.5);
   const tilt = resolveOrientationTilt(beta, gamma, angle);
-  const nextX = clamp(tilt.x / gammaDivisor, -1, 1);
-  const nextY = clamp(tilt.y / betaDivisor, -1, 1);
-  const sensorBlend = 0.28;
+
+  if (!orientationBaseline) {
+    orientationBaseline = tilt;
+    return;
+  }
+
+  const xDivisor = currentViewport.width > currentViewport.height ? 16 : 18;
+  const yDivisor = currentViewport.width > currentViewport.height ? 14 : 13;
+  const nextX = clamp(normalizeDelta(tilt.x - orientationBaseline.x) / xDivisor, -1, 1);
+  const nextY = clamp(normalizeDelta(tilt.y - orientationBaseline.y) / yDivisor, -1, 1);
+  const sensorBlend = 0.24;
 
   pointerTarget.x = lerp(pointerTarget.x, nextX, sensorBlend);
   pointerTarget.y = lerp(pointerTarget.y, nextY, sensorBlend);
 }
 
-function startOrientationListener() {
+function startGyroParallax() {
   if (orientationListening || typeof window.DeviceOrientationEvent === "undefined") {
     return;
   }
 
+  resetOrientationBaseline();
   window.addEventListener("deviceorientation", handleOrientation, { passive: true });
   orientationListening = true;
+  scene.dataset.motion = "gyro";
+  root.classList.add("is-gyro-active");
 }
 
-function stopOrientationListener() {
+function stopGyroParallax() {
   if (!orientationListening) {
     return;
   }
 
   window.removeEventListener("deviceorientation", handleOrientation);
   orientationListening = false;
+  resetOrientationBaseline();
+  scene.dataset.motion = "pointer";
+  root.classList.remove("is-gyro-active");
 }
 
 function hideMotionOverlay() {
@@ -367,61 +458,59 @@ function setGlitchPreviewState(isActive) {
   scene.classList.toggle("scene--glitch-preview", glitchPreviewAvailable && finePointerQuery.matches && isActive);
 }
 
-function needsPermissionRequest() {
+function shouldUseIOSPermissionFlow() {
   return (
     !prefersReducedMotion.matches &&
     canRequestDeviceOrientationPermission() &&
-    isAppleMobileDevice()
-  );
-}
-
-function shouldShowMotionPrompt() {
-  return (
-    !prefersReducedMotion.matches &&
-    (shouldForceMotionPromptDebug() || needsPermissionRequest())
+    isAppleMobile
   );
 }
 
 function syncMotionMode() {
-  const motionPermissionState = getCookie(motionPermissionCookieName);
-  const forcePromptDebug = shouldForceMotionPromptDebug();
-
   if (prefersReducedMotion.matches) {
     hideMotionOverlay();
-    stopOrientationListener();
+    stopGyroParallax();
     setGlitchPreviewState(false);
     resetPointerTarget();
     return;
   }
 
-  if (finePointerQuery.matches && !shouldForceMotionPromptDebug()) {
+  if (finePointerQuery.matches && !motionPromptDebugEnabled && !shouldUseIOSPermissionFlow()) {
     hideMotionOverlay();
-    stopOrientationListener();
+    stopGyroParallax();
     return;
   }
 
   setGlitchPreviewState(false);
 
-  if (shouldShowMotionPrompt()) {
-    if (motionPermissionState === "granted" && !forcePromptDebug) {
+  if (shouldUseIOSPermissionFlow()) {
+    if (gyroPermissionState === "granted") {
       hideMotionOverlay();
-      startOrientationListener();
+      startGyroParallax();
       return;
     }
 
-    if (forcePromptDebug || (!motionDismissed && motionPermissionState !== "dismissed")) {
+    stopGyroParallax();
+    resetPointerTarget();
+
+    if (!motionDismissed || gyroPermissionState === "denied" || motionPromptDebugEnabled) {
       showMotionOverlay();
     }
-    stopOrientationListener();
-    resetPointerTarget();
+
+    return;
+  }
+
+  if (typeof window.DeviceOrientationEvent !== "undefined" && !finePointerQuery.matches) {
+    hideMotionOverlay();
+    startGyroParallax();
     return;
   }
 
   hideMotionOverlay();
-  startOrientationListener();
+  stopGyroParallax();
 }
 
-async function requestMotionPermission() {
+async function requestGyroPermission() {
   motionDismissed = false;
 
   if (!canRequestDeviceOrientationPermission()) {
@@ -431,23 +520,25 @@ async function requestMotionPermission() {
 
   try {
     const permission = await window.DeviceOrientationEvent.requestPermission();
+    gyroPermissionState = permission === "granted" ? "granted" : "denied";
 
-    if (permission === "granted") {
-      setCookie(motionPermissionCookieName, "granted", 60 * 60 * 24 * 365);
+    if (gyroPermissionState === "granted") {
       hideMotionOverlay();
-      startOrientationListener();
+      startGyroParallax();
       return;
     }
   } catch (error) {
-    console.error("Не удалось запросить доступ к датчикам движения.", error);
+    gyroPermissionState = "denied";
+    console.error("Unable to request device orientation permission.", error);
   }
 
-  hideMotionOverlay();
+  stopGyroParallax();
   resetPointerTarget();
+  showMotionOverlay();
 }
 
 function animateScene() {
-  const damping = prefersReducedMotion.matches ? 0.16 : 0.075;
+  const damping = prefersReducedMotion.matches ? 0.16 : 0.085;
 
   pointerCurrent.x = lerp(pointerCurrent.x, pointerTarget.x, damping);
   pointerCurrent.y = lerp(pointerCurrent.y, pointerTarget.y, damping);
@@ -475,7 +566,7 @@ function triggerShake(targetSign) {
   const shakeTimeout = window.setTimeout(() => {
     targetSign.classList.remove("is-shaking");
     shakeTimeouts.delete(targetSign);
-  }, prefersReducedMotion.matches ? 180 : 420);
+  }, prefersReducedMotion.matches ? 80 : 480);
 
   shakeTimeouts.set(targetSign, shakeTimeout);
 }
@@ -486,6 +577,15 @@ function handleSignPointerDown(event) {
   }
 
   triggerShake(event.currentTarget);
+}
+
+function addMediaQueryListener(query, listener) {
+  if (typeof query.addEventListener === "function") {
+    query.addEventListener("change", listener);
+    return;
+  }
+
+  query.addListener(listener);
 }
 
 baseBackgroundImage.addEventListener("error", (event) => {
@@ -509,8 +609,21 @@ window.addEventListener("blur", () => {
   resetPointerTarget();
   setGlitchPreviewState(false);
 });
-prefersReducedMotion.addEventListener("change", applyLayout);
-finePointerQuery.addEventListener("change", applyLayout);
+window.addEventListener("pageshow", applyLayout, { passive: true });
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "hidden") {
+    resetPointerTarget();
+  } else {
+    syncMotionMode();
+  }
+});
+addMediaQueryListener(prefersReducedMotion, applyLayout);
+addMediaQueryListener(finePointerQuery, applyLayout);
+
+if (window.visualViewport) {
+  window.visualViewport.addEventListener("resize", applyLayout, { passive: true });
+  window.visualViewport.addEventListener("scroll", syncViewportHeight, { passive: true });
+}
 
 if (screen.orientation && typeof screen.orientation.addEventListener === "function") {
   screen.orientation.addEventListener("change", applyLayout);
@@ -538,12 +651,11 @@ glitchSign.addEventListener("blur", () => {
   setGlitchPreviewState(false);
 });
 
-allowMotionButton.addEventListener("click", requestMotionPermission);
+allowMotionButton.addEventListener("click", requestGyroPermission);
 dismissMotionButton.addEventListener("click", () => {
   motionDismissed = true;
-  setCookie(motionPermissionCookieName, "dismissed", 60 * 60 * 24 * 365);
   hideMotionOverlay();
-  stopOrientationListener();
+  stopGyroParallax();
   resetPointerTarget();
 });
 
